@@ -112,7 +112,7 @@ it("checks event emission when the owner put the status to the next one - 20 tes
   expect(descrProp2).to.equal(Prop2); 
   expectEvent(RegProp1, 'ProposalRegistered', { proposalId: one}); 
   expectEvent(RegProp2, 'ProposalRegistered'); 
-  expect (initVC.toString()).to.equal(zero.toString()); // ????? PROVOQUE LE BUG "AssertionError: expected <BN: 0> to equal <BN: 0>" sans ".toString()"
+  expect (initVC).to.be.bignumber.equal(zero); 
   await expectRevert(this.VotingInstance.RegisterProposal('Here is my prop',{from: owner}), 'you are not registered');
   await expectRevert(this.VotingInstance.RegisterProposal('Here is my prop',{from: accounts[3]}), 'you are not registered');
  });
@@ -153,8 +153,8 @@ it("checks event emission when the owner put the status to the next one - 20 tes
   voter: voter2,
   proposalId: one ,
   });
-  expect(voteCount1.toString()).to.equal(two.toString()); // ?????
-  expect(voteCount2.toString()).to.equal(one.toString());
+  expect(voteCount1).to.be.bignumber.equal(two); 
+  expect(voteCount2).to.be.bignumber.equal(one);
  });
 
  it("cheks the list of winners", async function () {
@@ -181,9 +181,14 @@ it("checks event emission when the owner put the status to the next one - 20 tes
   let win2 = await Win(1);
   let getWin = await this.VotingInstance.getWinner({from: accounts[8]});
   
-  expect(getWin[0].toString()).to.equal(win1.toString()); // ?????
-  expect(getWin[1].toString()).to.equal(win2.toString());
-  expect(win1.toString()).to.equal(two.toString()); // ?????
-  expect(win2.toString()).to.equal(one.toString());
+  expect(getWin[0]).to.be.bignumber.equal(win1);
+  expect(getWin[1]).to.be.bignumber.equal(win2);
+  expect(win1).to.be.bignumber.equal(two); 
+  expect(win2).to.be.bignumber.equal(one);
+
+       
  });
+
+
 });
+
